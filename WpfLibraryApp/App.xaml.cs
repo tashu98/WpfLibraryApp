@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Windows;
+using System.Windows.Threading;
 using WpfLibraryApp.DataAccess;
 using WpfLibraryApp.Models;
+
 
 namespace WpfLibraryApp;
 
@@ -37,15 +40,27 @@ public partial class App : Application
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
-            .ConfigureServices((_, services) =>
+            .ConfigureAppConfiguration((hostBuilderContext, configurationBuilder) =>
+            {
+
+            })
+            .ConfigureServices((hostContext, services) =>
             {
                 services.AddSingleton<MainWindow>();
+                services.AddSingleton<MainWindowViewModel>();
+                services.AddSingleton<WeakReferenceMessenger>();
+                services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider => provider.GetRequiredService<WeakReferenceMessenger>());
 
-                services.AddDbContext<AppDbContext>(options =>
-                {
-                    options.UseSqlite("Data Source=.\\library.db");
-                });
+                services.AddSingleton<Dispatcher>(_ => Current.Dispatcher);
+
+                services.AddDbContext<AppDbContext>(
+                    options =>
+                    {
+                        options.UseSqlite("Data Source=.\\library.db");
+                        //options.UseLazyLoadingProxies();
+                    });
             });
+    
     private static async Task PopulateDatabase(AppDbContext context)
     {
         if (await context.Books.AnyAsync())

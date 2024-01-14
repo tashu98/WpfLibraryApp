@@ -5,6 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfLibraryApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid/>
+        Title="MainWindow" Height="600" Width="920"
+        Background="#272537">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- First DataGrid -->
+        <DataGrid x:Name="dataGrid1" Grid.Row="0" AutoGenerateColumns="False" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Rentals}" >
+            <DataGrid.Columns>
+                <!-- Other columns for Rental properties -->
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="RentalDate" Binding="{Binding RentalDate}" />
+                <DataGridTextColumn Header="ReturnDate" Binding="{Binding ReturnDate}" />
+                <DataGridTextColumn Header="Book Id" Binding="{Binding Book.Id}" />
+                <DataGridTextColumn Header="Reader Id" Binding="{Binding Reader.Id}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <!-- First DataGrid Buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,10">
+            <Button Content="Button 1" Width="100" Height="30" Margin="5"/>
+            <Button Content="Button 2" Width="100" Height="30" Margin="5"/>
+        </StackPanel>
+        
+        <!-- Second DataGrid -->
+        <DataGrid x:Name="dataGrid2" Grid.Row="2" AutoGenerateColumns="True" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Books}" />
+
+        <!-- Second DataGridButtons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
+            <Button Content="Button 1" Width="100" Height="30" Margin="5"/>
+            <Button Content="Button 2" Width="100" Height="30" Margin="5"/>
+        </StackPanel>
+        
+        <!-- Third DataGrid -->
+        <DataGrid x:Name="dataGrid3" Grid.Row="4" AutoGenerateColumns="True" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Readers}" />
+        
+        <!-- Third DataGrid Buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
+            <Button Content="Button 1" Width="100" Height="30" Margin="5"/>
+            <Button Content="Button 2" Width="100" Height="30" Margin="5"/>
+        </StackPanel>
+    </Grid>
 </Window>
