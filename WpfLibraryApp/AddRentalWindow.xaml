@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfLibraryApp.AddRentalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfLibraryApp"
+        mc:Ignorable="d"
+        Title="AddRentalWindow" Height="450" Width="800">
+    <Grid>
+        <Label Content="Select Reader" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cmbReaders" HorizontalAlignment="Left" Height="23" Margin="10,30,0,0" VerticalAlignment="Top" Width="200"/>
+
+        <Label Content="Select Book" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cmbBooks" HorizontalAlignment="Left" Height="23" Margin="10,80,0,0" VerticalAlignment="Top" Width="200"/>
+
+        <Button x:Name="OkButton" Content="OK" Click="OkButton_Click" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" HorizontalAlignment="Left" Margin="90,120,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>

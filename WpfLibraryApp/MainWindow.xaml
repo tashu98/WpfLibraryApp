@@ -9,6 +9,9 @@
         Background="#272537">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -19,39 +22,294 @@
         </Grid.RowDefinitions>
 
         <!-- First DataGrid -->
-        <DataGrid x:Name="dataGrid1" Grid.Row="0" AutoGenerateColumns="False" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Rentals}" >
+        <DataGrid x:Name="dataGrid1" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding Rentals}" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Resources>
+                <!-- Style for the DataGrid -->
+                <Style TargetType="DataGrid">
+                    <Setter Property="BorderBrush" Value="#FF419DD5" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="RowBackground" Value="#E1F5FE" />
+                    <Setter Property="AlternatingRowBackground" Value="#B3E0FF" />
+                    <Setter Property="Foreground" Value="#333" />
+                    <Setter Property="GridLinesVisibility" Value="All" />
+                    <Setter Property="RowHeaderWidth" Value="40" />
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontFamily" Value="Segoe UI" />
+                </Style>
+
+                <!-- Style for the DataGridCell -->
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="TextBlock.TextAlignment" Value="Left" />
+                </Style>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#FF419DD5" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="BorderBrush" Value="#FF419DD5" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </DataGrid.Resources>
+
             <DataGrid.Columns>
                 <!-- Other columns for Rental properties -->
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="RentalDate" Binding="{Binding RentalDate}" />
-                <DataGridTextColumn Header="ReturnDate" Binding="{Binding ReturnDate}" />
-                <DataGridTextColumn Header="Book Id" Binding="{Binding Book.Id}" />
-                <DataGridTextColumn Header="Reader Id" Binding="{Binding Reader.Id}" />
+                <DataGridTextColumn Header="Rental Date" Binding="{Binding RentalDate}" Width="*" />
+                <DataGridTextColumn Header="Return Date" Binding="{Binding ReturnDate}" Width="*" />
+                <DataGridTextColumn Header="Book Title" Binding="{Binding Book.Title}" Width="*" />
+                <DataGridTextColumn Header="Reader Name" Binding="{Binding Reader.Name}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
-        
+
+
         <!-- First DataGrid Buttons -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,10">
-            <Button Content="Button 1" Width="100" Height="30" Margin="5"/>
-            <Button Content="Button 2" Width="100" Height="30" Margin="5"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
+            <Button Content="Add Rental" Width="100" Height="30" Margin="5" Click="AddRentalButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#4CAF50" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="#388E3C" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#388E3C" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="Return Rental" Width="100" Height="30" Margin="5" Click="ReturnRentalButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#F44336" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="#B71C1C" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#B71C1C" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
-        
+
+
         <!-- Second DataGrid -->
-        <DataGrid x:Name="dataGrid2" Grid.Row="2" AutoGenerateColumns="True" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Books}" />
+        <DataGrid x:Name="dataGrid2" Grid.Row="2" Grid.Column="0" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding Books}"  IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Resources>
+                <!-- Style for the DataGrid -->
+                <Style TargetType="DataGrid">
+                    <Setter Property="Background" Value="#F3EFEF" />
+                    <Setter Property="BorderBrush" Value="#7E7E7E" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="RowBackground" Value="#F7F1F1" />
+                    <Setter Property="AlternatingRowBackground" Value="#E2DADA" />
+                    <Setter Property="Foreground" Value="#333" />
+                    <Setter Property="GridLinesVisibility" Value="All" />
+                    <Setter Property="RowHeaderWidth" Value="40" />
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontFamily" Value="Segoe UI" />
+                </Style>
+
+                <!-- Style for the DataGridColumnHeader -->
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#4A90E2" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="BorderBrush" Value="#4A90E2" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="*"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="*"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="*"/>
+                <DataGridTextColumn Header="Available" Binding="{Binding Available}" Width="*"/>
+                <DataGridTextColumn Header="Reserved" Binding="{Binding Reserved}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
 
         <!-- Second DataGridButtons -->
-        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
-            <Button Content="Button 1" Width="100" Height="30" Margin="5"/>
-            <Button Content="Button 2" Width="100" Height="30" Margin="5"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
+            <Button Content="Add Book" Width="100" Height="30" Margin="5" Click="AddBookButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#4CAF50" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="#388E3C" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#388E3C" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="Edit Book" Width="100" Height="30" Margin="5" Click="EditBookButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#2196F3" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="#1565C0" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1565C0" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="Delete Book" Width="100" Height="30" Margin="5" Click="DeleteBookButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#F44336" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="#B71C1C" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#B71C1C" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
-        
+
+
         <!-- Third DataGrid -->
-        <DataGrid x:Name="dataGrid3" Grid.Row="4" AutoGenerateColumns="True" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Readers}" />
-        
+        <DataGrid x:Name="dataGrid3" Grid.Row="4" Grid.Column="0" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding Readers}" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Resources>
+                <!-- Style for the DataGrid -->
+                <Style TargetType="DataGrid">
+                    <Setter Property="Background" Value="#E8F5E9" />
+                    <Setter Property="BorderBrush" Value="#4CAF50" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="RowBackground" Value="#C8E6C9" />
+                    <Setter Property="AlternatingRowBackground" Value="#A5D6A7" />
+                    <Setter Property="Foreground" Value="#333" />
+                    <Setter Property="GridLinesVisibility" Value="All" />
+                    <Setter Property="RowHeaderWidth" Value="40" />
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontFamily" Value="Segoe UI" />
+                </Style>
+
+                <!-- Style for the DataGridColumnHeader -->
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#4CAF50" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="BorderBrush" Value="#4CAF50" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*"/>
+                <DataGridTextColumn Header="Date Of Birth" Binding="{Binding DateOfBirth}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
         <!-- Third DataGrid Buttons -->
         <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
-            <Button Content="Button 1" Width="100" Height="30" Margin="5"/>
-            <Button Content="Button 2" Width="100" Height="30" Margin="5"/>
+            <Button Content="Add Reader" Width="100" Height="30" Margin="5" Click="AddReaderButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#4CAF50" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="#388E3C" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#388E3C" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="Edit Reader" Width="100" Height="30" Margin="5" Click="EditReaderButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#2196F3" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="#1565C0" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1565C0" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="Delete Reader" Width="100" Height="30" Margin="5" Click="DeleteReaderButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#F44336" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="#B71C1C" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#B71C1C" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
+
     </Grid>
 </Window>

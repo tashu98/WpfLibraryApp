@@ -11,41 +11,37 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
-using System.Windows;
-using System.Xml.Linq;
-using WpfLibraryApp.Models;
 using WpfLibraryApp.DataAccess;
-using Microsoft.EntityFrameworkCore;
-
+using WpfLibraryApp.Models;
 
 namespace WpfLibraryApp
 {
-    public partial class AddReaderWindow : Window
+    /// <summary>
+    /// Interaction logic for AddBookWindow.xaml
+    /// </summary>
+    public partial class AddBookWindow : Window
     {
         private readonly AppDbContext _context;
-        public Reader CreatedReader { get; private set; }
 
-        public AddReaderWindow(AppDbContext context)
+        public AddBookWindow(AppDbContext context)
         {
-            _context = context;
             InitializeComponent();
+            _context = context;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            // Create a new Reader with the provided information
-            CreatedReader = new Reader
+            var newBook = new Book
             {
-                // Set properties based on the user input
-                Name = txtName.Text,
-                Address = txtAddress.Text,
-                Email = txtEmail.Text,
-                Phone = txtPhone.Text,
-                DateOfBirth = dataPicker.SelectedDate
+                Title = txtTitle.Text,
+                Author = txtAuthor.Text,
+                Description = txtDescription.Text,
+                ISBN = txtISBN.Text,
+                Quantity = int.Parse(txtQuantity.Text),
+                Available = int.Parse(txtQuantity.Text), // Assuming all added books are available
+                Reserved = 0 // Assuming no books are reserved when added
             };
-            
-            _context.Readers.Add(CreatedReader);
+            _context.Books.Add(newBook);
             _context.SaveChanges();
             DialogResult = true;
             Close();
@@ -58,4 +54,3 @@ namespace WpfLibraryApp
         }
     }
 }
-

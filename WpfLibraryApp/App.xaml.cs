@@ -53,6 +53,12 @@ public partial class App : Application
 
                 services.AddSingleton<Dispatcher>(_ => Current.Dispatcher);
 
+                services.AddTransient<AddReaderWindow>();
+                services.AddTransient<AddBookWindow>();
+                services.AddTransient<AddRentalWindow>();
+                services.AddTransient<EditBookWindow>();
+                services.AddTransient<EditReaderWindow>();
+
                 services.AddDbContext<AppDbContext>(
                     options =>
                     {
