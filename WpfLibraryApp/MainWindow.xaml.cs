@@ -14,19 +14,19 @@ public partial class MainWindow : Window
     private readonly AddReaderWindow _addReaderWindow;
     private readonly AddBookWindow _addBookWindow;
     private readonly AddRentalWindow _addRentalWindow;
-    private readonly EditBookWindow _editBookWindow;
-    private readonly EditReaderWindow _editReaderWindow;
+    private readonly Func<EditBookWindow> _editBookWindowFactory;
+    private readonly Func<EditReaderWindow> _editReaderWindowFactory;
 
     private readonly AppDbContext _context;
     public Reader SelectedReader { get; set; }
 
-    public MainWindow(MainWindowViewModel viewModel, AppDbContext context, AddReaderWindow addReaderWindow, AddBookWindow addBookWindow, AddRentalWindow addRentalWindow, EditBookWindow editBookWindow, EditReaderWindow editReaderWindow)
+    public MainWindow(MainWindowViewModel viewModel, AppDbContext context, AddReaderWindow addReaderWindow, AddBookWindow addBookWindow, AddRentalWindow addRentalWindow, Func<EditBookWindow> editBookWindowFactory, Func<EditReaderWindow> editReaderWindowFactory)
     {
         _addReaderWindow = addReaderWindow;
         _addBookWindow = addBookWindow;
         _addRentalWindow = addRentalWindow;
-        _editBookWindow = editBookWindow;
-        _editReaderWindow = editReaderWindow;
+        _editBookWindowFactory = editBookWindowFactory;
+        _editReaderWindowFactory = editReaderWindowFactory;
 
         DataContext = viewModel ?? throw new ArgumentNullException(nameof(viewModel));        _context = context;
 
@@ -63,9 +63,10 @@ public partial class MainWindow : Window
         var selectedBook = dataGrid2.SelectedItem as Book;
         if (selectedBook != null)
         {
-            _editBookWindow.LoadBook(selectedBook);
-            _editBookWindow.Owner = this;
-            _editBookWindow.ShowDialog();
+            var editBookWindow = _editBookWindowFactory();
+            editBookWindow.LoadBook(selectedBook);
+            editBookWindow.Owner = this;
+            editBookWindow.ShowDialog();
         }
     }
 
@@ -92,9 +93,10 @@ public partial class MainWindow : Window
         var selectedReader = dataGrid3.SelectedItem as Reader;
         if (selectedReader != null)
         {
-            _editReaderWindow.LoadReader(selectedReader);
-            _editReaderWindow.Owner = this;
-            _editReaderWindow.ShowDialog();
+            var editReaderWindow = _editReaderWindowFactory();
+            editReaderWindow.LoadReader(selectedReader);
+            editReaderWindow.Owner = this;
+            editReaderWindow.ShowDialog();
         }
     }
 

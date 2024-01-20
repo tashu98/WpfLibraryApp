@@ -26,5 +26,4 @@ public class MainWindowViewModel : ObservableObject
         context.Readers.Load();
         Readers = context.Readers.Local.ToObservableCollection();
     }
-
 }

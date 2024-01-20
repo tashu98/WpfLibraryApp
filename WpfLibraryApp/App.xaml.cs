@@ -58,6 +58,8 @@ public partial class App : Application
                 services.AddTransient<AddRentalWindow>();
                 services.AddTransient<EditBookWindow>();
                 services.AddTransient<EditReaderWindow>();
+                services.AddTransient<Func<EditBookWindow>>(serviceProvider => () => serviceProvider.GetRequiredService<EditBookWindow>());
+                services.AddTransient<Func<EditReaderWindow>>(serviceProvider => () => serviceProvider.GetRequiredService<EditReaderWindow>());
 
                 services.AddDbContext<AppDbContext>(
                     options =>
@@ -66,57 +68,78 @@ public partial class App : Application
                         //options.UseLazyLoadingProxies();
                     });
             });
-    
+
     private static async Task PopulateDatabase(AppDbContext context)
     {
         if (await context.Books.AnyAsync())
         {
             return;
         }
-        for (int i = 0; i < 10; i++)
+
+        var authors = new List<string> { "J.K. Rowling", "Stephen King", "George R.R. Martin", "J.R.R. Tolkien", "Agatha Christie" };
+        var titles = new List<string> { "Harry Potter", "The Shining", "Game of Thrones", "The Lord of the Rings", "Murder on the Orient Express" };
+        var descriptions = new List<string> { "A series about a young wizard", "A horror novel set in an isolated hotel", "A fantasy series about a battle for a throne", "A fantasy epic about a quest to destroy a powerful ring", "A detective novel about a murder on a train" };
+        var isbns = new List<string> { "978-0747532699", "978-0307743657", "978-0553103540", "978-0261102385", "978-0007119318" };
+
+        for (int i = 0; i < 5; i++)
         {
+            var quantity = new Random().Next(1, 100);
+            var reserved = new Random().Next(0, quantity);
+            var available = quantity - reserved;
+
             context.Books.Add(new Book
             {
-                Title = $"Book {i}",
-                Author = $"Author {i}",
-                Description = $"Description {i}",
-                ISBN = $"ISBN {i}",
-                Quantity = i,
-                Available = i,
-                Reserved = i
+                Title = titles[i],
+                Author = authors[i],
+                Description = descriptions[i],
+                ISBN = isbns[i],
+                Quantity = quantity,
+                Available = available,
+                Reserved = reserved
             });
-            await context.SaveChangesAsync();
         }
-        for (int i = 0; i < 10; i++)
+
+        await context.SaveChangesAsync();
+
+        var names = new List<string> { "John Doe", "Jane Smith", "Bob Johnson", "Alice Williams", "Charlie Brown" };
+        var addresses = new List<string> { "123 Main St", "456 Oak St", "789 Pine St", "321 Elm St", "654 Maple St" };
+        var emails = new List<string> { "john@example.com", "jane@example.com", "bob@example.com", "alice@example.com", "charlie@example.com" };
+        var phones = new List<string> { "555-1234", "555-5678", "555-9012", "555-3456", "555-7890" };
+
+        for (int i = 0; i < 5; i++)
         {
             context.Readers.Add(new Reader
             {
-                Name = $"Reader {i}",
-                Address = $"Address {i}",
-                Email = $"Email {i}",
-                Phone = $"Phone {i}",
-                DateOfBirth = DateTime.Now.AddYears(-i)
+                Name = names[i],
+                Address = addresses[i],
+                Email = emails[i],
+                Phone = phones[i],
+                DateOfBirth = DateTime.Now.AddYears(-new Random().Next(20, 70))
             });
-            await context.SaveChangesAsync();
         }
-        for (int i = 0; i < 10; i++)
+
+        await context.SaveChangesAsync();
+
+        for (int i = 0; i < 5; i++)
         {
             //get random book from database
-            Book book = await context.Books.Skip(i)
-                .FirstOrDefaultAsync();
+            Book book = await context.Books.Skip(i).FirstOrDefaultAsync();
             //get random reader from database
-            Reader reader = await context.Readers.Skip(i)
-                .FirstOrDefaultAsync();
+            Reader reader = await context.Readers.Skip(i).FirstOrDefaultAsync();
 
-            context.Rentals.Add(new Rental
+            if (book != null && reader != null)
             {
-                RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(7),
-                Book = book,
-                Reader = reader
-            });
-            await context.SaveChangesAsync();
+                context.Rentals.Add(new Rental
+                {
+                    RentalDate = DateTime.Now,
+                    ReturnDate = DateTime.Now.AddDays(7),
+                    Book = book,
+                    Reader = reader
+                });
+            }
         }
+
+        await context.SaveChangesAsync();
     }
 }
 

@@ -6,23 +6,23 @@
         xmlns:local="clr-namespace:WpfLibraryApp"
         mc:Ignorable="d"
         Title="EditBookWindow" Height="450" Width="800">
-    <Grid>
-        <Label Content="Title" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtTitle" HorizontalAlignment="Left" Height="23" Margin="10,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+    <Grid Background="#F3F3F3">
+        <Label Content="Title" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="txtTitle" HorizontalAlignment="Left" Height="23" Margin="10,30,0,0" VerticalAlignment="Top" Width="200" BorderBrush="#2196F3" BorderThickness="1" Background="#FFFFFF" />
 
-        <Label Content="Author" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtAuthor" HorizontalAlignment="Left" Height="23" Margin="10,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+        <Label Content="Author" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="txtAuthor" HorizontalAlignment="Left" Height="23" Margin="10,80,0,0" VerticalAlignment="Top" Width="200" BorderBrush="#2196F3" BorderThickness="1" Background="#FFFFFF" />
 
-        <Label Content="Description" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="10,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+        <Label Content="Description" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="60" Margin="10,130,0,0" VerticalAlignment="Top" Width="200" BorderBrush="#2196F3" BorderThickness="1" Background="#FFFFFF" TextWrapping="Wrap" />
 
-        <Label Content="ISBN" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtISBN" HorizontalAlignment="Left" Height="23" Margin="10,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+        <Label Content="ISBN" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="txtISBN" HorizontalAlignment="Left" Height="23" Margin="10,220,0,0" VerticalAlignment="Top" Width="200" BorderBrush="#2196F3" BorderThickness="1" Background="#FFFFFF" />
 
-        <Label Content="Quantity" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtQuantity" HorizontalAlignment="Left" Height="23" Margin="10,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+        <Label Content="Quantity" HorizontalAlignment="Left" Margin="10,240,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="txtQuantity" HorizontalAlignment="Left" Height="23" Margin="10,270,0,0" VerticalAlignment="Top" Width="200" BorderBrush="#2196F3" BorderThickness="1" Background="#FFFFFF" />
 
-        <Button x:Name="OkButton" Content="OK" Click="OkButton_Click" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" HorizontalAlignment="Left" Margin="90,270,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="OkButton" Content="OK" Click="OkButton_Click" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top" Width="75" Background="#4CAF50" Foreground="White" BorderBrush="#388E3C" BorderThickness="1" FontSize="14"/>
+        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" HorizontalAlignment="Left" Margin="90,310,0,0" VerticalAlignment="Top" Width="75" Background="#F44336" Foreground="White" BorderBrush="#B71C1C" BorderThickness="1" FontSize="14"/>
     </Grid>
 </Window>
