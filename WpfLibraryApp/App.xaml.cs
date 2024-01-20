@@ -58,6 +58,9 @@ public partial class App : Application
                 services.AddTransient<AddRentalWindow>();
                 services.AddTransient<EditBookWindow>();
                 services.AddTransient<EditReaderWindow>();
+                services.AddTransient<Func<AddReaderWindow>>(serviceProvider => () => serviceProvider.GetRequiredService<AddReaderWindow>());
+                services.AddTransient<Func<AddBookWindow>>(serviceProvider => () => serviceProvider.GetRequiredService<AddBookWindow>());
+                services.AddTransient<Func<AddRentalWindow>>(serviceProvider => () => serviceProvider.GetRequiredService<AddRentalWindow>());
                 services.AddTransient<Func<EditBookWindow>>(serviceProvider => () => serviceProvider.GetRequiredService<EditBookWindow>());
                 services.AddTransient<Func<EditReaderWindow>>(serviceProvider => () => serviceProvider.GetRequiredService<EditReaderWindow>());
 

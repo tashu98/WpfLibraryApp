@@ -1,8 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using WpfLibraryApp.DataAccess;
 using WpfLibraryApp.Models;
 
@@ -10,21 +6,20 @@ namespace WpfLibraryApp;
 
 public partial class MainWindow : Window
 {
-
-    private readonly AddReaderWindow _addReaderWindow;
-    private readonly AddBookWindow _addBookWindow;
-    private readonly AddRentalWindow _addRentalWindow;
+    private readonly Func<AddReaderWindow> _addReaderWindowFactory;
+    private readonly Func<AddBookWindow> _addBookWindowFactory;
+    private readonly Func<AddRentalWindow> _addRentalWindowFactory;
     private readonly Func<EditBookWindow> _editBookWindowFactory;
     private readonly Func<EditReaderWindow> _editReaderWindowFactory;
 
     private readonly AppDbContext _context;
     public Reader SelectedReader { get; set; }
 
-    public MainWindow(MainWindowViewModel viewModel, AppDbContext context, AddReaderWindow addReaderWindow, AddBookWindow addBookWindow, AddRentalWindow addRentalWindow, Func<EditBookWindow> editBookWindowFactory, Func<EditReaderWindow> editReaderWindowFactory)
+    public MainWindow(MainWindowViewModel viewModel, AppDbContext context, Func<AddReaderWindow> addReaderWindowFactory, Func<AddBookWindow> addBookWindowFactory, Func<AddRentalWindow> addRentalWindowFactory, Func<EditBookWindow> editBookWindowFactory, Func<EditReaderWindow> editReaderWindowFactory)
     {
-        _addReaderWindow = addReaderWindow;
-        _addBookWindow = addBookWindow;
-        _addRentalWindow = addRentalWindow;
+        _addReaderWindowFactory = addReaderWindowFactory;
+        _addBookWindowFactory = addBookWindowFactory;
+        _addRentalWindowFactory = addRentalWindowFactory;
         _editBookWindowFactory = editBookWindowFactory;
         _editReaderWindowFactory = editReaderWindowFactory;
 
@@ -33,11 +28,12 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-       
+
     void AddRentalButton_Click(object sender, RoutedEventArgs e)
     {
-        _addRentalWindow.Owner = this;
-        _addRentalWindow.ShowDialog();
+        var addRentalWindow = _addRentalWindowFactory();
+        addRentalWindow.Owner = this;
+        addRentalWindow.ShowDialog();
     }
 
     private void ReturnRentalButton_Click(object sender, RoutedEventArgs e)
@@ -54,8 +50,9 @@ public partial class MainWindow : Window
 
     private void AddBookButton_Click(object sender, RoutedEventArgs e)
     {
-        _addBookWindow.Owner = this;
-        _addBookWindow.ShowDialog();
+        var addBookWindow = _addBookWindowFactory();
+        addBookWindow.Owner = this;
+        addBookWindow.ShowDialog();
     }
 
     private void EditBookButton_Click(object sender, RoutedEventArgs e)
@@ -73,7 +70,7 @@ public partial class MainWindow : Window
     private void DeleteBookButton_Click(object sender, RoutedEventArgs e)
     {
         var selectedBook = dataGrid2.SelectedItem as Book;
-        if (selectedBook != null)
+        if (selectedBook != null && selectedBook.Reserved < 1)
         {
             _context.Books.Remove(selectedBook);
             _context.SaveChanges();
@@ -83,9 +80,9 @@ public partial class MainWindow : Window
 
     private void AddReaderButton_Click(object sender, RoutedEventArgs e)
     {
-        _addReaderWindow.Owner = this;
-        _addReaderWindow.ShowDialog();
-
+        var addReaderWindow = _addReaderWindowFactory();
+        addReaderWindow.Owner = this;
+        addReaderWindow.ShowDialog();
     }
 
     private void EditReaderButton_Click(object sender, RoutedEventArgs e)
